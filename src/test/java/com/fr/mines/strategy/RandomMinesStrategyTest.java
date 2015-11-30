@@ -1,7 +1,7 @@
-package com.fr.orange.mines.strategy;
+package com.fr.mines.strategy;
 
-import com.fr.orange.mines.domain.Cell;
-import com.fr.orange.mines.domain.Coordinate;
+import com.fr.mines.domain.Cell;
+import com.fr.mines.domain.Coordinate;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -52,12 +52,11 @@ public class RandomMinesStrategyTest {
     @Test
     public void should_plant_zero_mines() {
         RandomMinesStrategy strategy = new RandomMinesStrategy();
-        ;
         final Map<Coordinate, Cell> coordinateCellMap = strategy.generateCells(new Coordinate(3, 4), 0);
         int plantedMines = 0;
         Iterator<Cell> cells = coordinateCellMap.values().iterator();
         while (cells.hasNext()) {
-            if (cells.next().isMinePLanted())
+            if (cells.next().isMinePlanted())
                 plantedMines++;
         }
         assertEquals(plantedMines, 0);
@@ -70,7 +69,7 @@ public class RandomMinesStrategyTest {
         int plantedMines = 0;
         Iterator<Cell> cells = coordinateCellMap.values().iterator();
         while (cells.hasNext()) {
-            if (cells.next().isMinePLanted())
+            if (cells.next().isMinePlanted())
                 plantedMines++;
         }
         assertEquals(plantedMines, 0);
@@ -83,7 +82,7 @@ public class RandomMinesStrategyTest {
         int plantedMines = 0;
         Iterator<Cell> cells = coordinateCellMap.values().iterator();
         while (cells.hasNext()) {
-            if (cells.next().isMinePLanted())
+            if (cells.next().isMinePlanted())
                 plantedMines++;
         }
         assertEquals(plantedMines, 0);
@@ -96,7 +95,7 @@ public class RandomMinesStrategyTest {
         int plantedMines = 0;
         Iterator<Cell> cells = coordinateCellMap.values().iterator();
         while (cells.hasNext()) {
-            if (cells.next().isMinePLanted())
+            if (cells.next().isMinePlanted())
                 plantedMines++;
         }
         assertEquals(plantedMines, 1);
@@ -109,7 +108,7 @@ public class RandomMinesStrategyTest {
         int plantedMines = 0;
         Iterator<Cell> cells = coordinateCellMap.values().iterator();
         while (cells.hasNext()) {
-            if (cells.next().isMinePLanted())
+            if (cells.next().isMinePlanted())
                 plantedMines++;
         }
         assertEquals(plantedMines, 2);
@@ -122,7 +121,7 @@ public class RandomMinesStrategyTest {
         int plantedMines = 0;
         Iterator<Cell> cells = coordinateCellMap.values().iterator();
         while (cells.hasNext()) {
-            if (cells.next().isMinePLanted())
+            if (cells.next().isMinePlanted())
                 plantedMines++;
         }
         assertEquals(plantedMines, 11);
@@ -136,7 +135,7 @@ public class RandomMinesStrategyTest {
         Iterator<Cell> cells = coordinateCellMap.values().iterator();
         while (cells.hasNext()) {
             Cell cell = cells.next();
-            if (!cell.isMinePLanted())
+            if (!cell.isMinePlanted())
                 adjMines = cell.getAdjacentMines();
         }
         assertEquals(adjMines, 3);
@@ -150,11 +149,10 @@ public class RandomMinesStrategyTest {
         Iterator<Cell> cells = coordinateCellMap.values().iterator();
         while (cells.hasNext()) {
             Cell cell = cells.next();
-            if (!cell.isMinePLanted())
+            if (!cell.isMinePlanted())
                 adjMines = cell.getAdjacentMines();
         }
         assertEquals(adjMines, 1);
     }
-
 
 }

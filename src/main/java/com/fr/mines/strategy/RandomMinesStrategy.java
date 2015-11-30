@@ -1,15 +1,11 @@
-package com.fr.orange.mines.strategy;
+package com.fr.mines.strategy;
 
-
-import com.fr.orange.mines.domain.Cell;
-import com.fr.orange.mines.domain.Coordinate;
+import com.fr.mines.domain.Coordinate;
+import com.fr.mines.domain.Cell;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.IntStream;
-
-
 
 public class RandomMinesStrategy implements MinesStrategy {
     Map<Coordinate, Cell> cells;
@@ -28,7 +24,6 @@ public class RandomMinesStrategy implements MinesStrategy {
         return plantMines(mines);
     }
 
-
     private Map<Coordinate, Cell> plantMines(int mines) {
         int planted = 0;
         if (cells != null && mines < cells.size())
@@ -40,9 +35,6 @@ public class RandomMinesStrategy implements MinesStrategy {
             }
         return cells;
     }
-
-
-
 
     private void addAdjacentMines(Coordinate coord, int planted) {
         for (int i = coord.getCoordX() - 1; i <= coord.getCoordX() + 1; i++) {

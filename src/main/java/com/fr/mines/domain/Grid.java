@@ -1,12 +1,12 @@
-package com.fr.orange.mines.domain;
+package com.fr.mines.domain;
 
 
-import com.fr.orange.mines.strategy.MinesStrategy;
+import com.fr.mines.strategy.MinesStrategy;
 
 import java.util.Map;
 
-import static com.fr.orange.mines.domain.Cell.Status.COVERED;
-import static com.fr.orange.mines.domain.Cell.Status.UNCOVERED;
+import static com.fr.mines.domain.Cell.Status.COVERED;
+import static com.fr.mines.domain.Cell.Status.UNCOVERED;
 
 public class Grid {
 
@@ -16,22 +16,19 @@ public class Grid {
     private int uncoveredCells;
     private boolean gameLost;
 
-    private Grid() {
-    }
-
     private Grid(Coordinate max, int mines, Map<Coordinate, Cell> cells) {
         this.maxCoordinate = max;
         this.cells = cells;
         this.mines = mines;
-        this.uncoveredCells=0;
-        gameLost=false;
+        this.uncoveredCells = 0;
+        gameLost = false;
     }
 
     public Coordinate getMaxCoordinate() {
         return maxCoordinate;
     }
 
-    public Cell getCell(Coordinate coor) {
+    public Cell getCellAt(Coordinate coor) {
         return cells.get(coor);
     }
 
@@ -39,25 +36,25 @@ public class Grid {
         return mines;
     }
 
-    public void uncoverCell(Coordinate coord){
-        if(cells.get(coord).isMinePLanted())
-            gameLost=true;
-        if(cells.get(coord).getStatus().equals(COVERED))
+    public void uncoverCell(Coordinate coord) {
+        if (cells.get(coord).isMinePlanted())
+            gameLost = true;
+        if (cells.get(coord).getStatus().equals(COVERED))
             uncoveredCells++;
         cells.get(coord).withStatus(UNCOVERED);
 
     }
 
-    public boolean isCellAvailable(Coordinate coord){
+    public boolean isCellAvailable(Coordinate coord) {
         return cells.get(coord).getStatus().equals(COVERED);
     }
 
-    public boolean isGameLost(){
+    public boolean isGameLost() {
         return gameLost;
     }
 
-    public boolean isGameWin(){
-        return (uncoveredCells+mines)==cells.size();
+    public boolean isGameWin() {
+        return (uncoveredCells + mines) == cells.size();
     }
 
 
@@ -73,10 +70,8 @@ public class Grid {
         }
 
         public Grid build(int mines, MinesStrategy strategy) {
-
             return new Grid(maxCoordinate, mines, strategy.generateCells(maxCoordinate, mines));
         }
-
     }
 
 }

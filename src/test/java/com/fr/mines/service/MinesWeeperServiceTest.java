@@ -1,10 +1,10 @@
-package com.fr.orange.mines.service;
+package com.fr.mines.service;
 
-import com.fr.orange.mines.domain.Cell;
-import com.fr.orange.mines.domain.Coordinate;
-import com.fr.orange.mines.domain.Grid;
-import com.fr.orange.mines.strategy.MinesStrategy;
-import com.fr.orange.mines.strategy.RandomMinesStrategy;
+import com.fr.mines.domain.Coordinate;
+import com.fr.mines.domain.Cell;
+import com.fr.mines.domain.Grid;
+import com.fr.mines.strategy.MinesStrategy;
+import com.fr.mines.strategy.RandomMinesStrategy;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import static com.fr.orange.mines.domain.Cell.Status.COVERED;
-import static com.fr.orange.mines.domain.Cell.Status.UNCOVERED;
+import static com.fr.mines.domain.Cell.Status.COVERED;
+import static com.fr.mines.domain.Cell.Status.UNCOVERED;
 import static org.junit.Assert.*;
 
 
@@ -27,7 +27,7 @@ public class MinesWeeperServiceTest {
         assertEquals(grid.getMaxCoordinate().getCoordX(), 1);
         assertEquals(grid.getMaxCoordinate().getCoordY(), 1);
         assertEquals(grid.getMines(), 0);
-        assertNotNull(grid.getCell(grid.getMaxCoordinate()));
+        assertNotNull(grid.getCellAt(grid.getMaxCoordinate()));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class MinesWeeperServiceTest {
         assertEquals(grid.getMaxCoordinate().getCoordX(), 3);
         assertEquals(grid.getMaxCoordinate().getCoordY(), 4);
         assertEquals(grid.getMines(), 1);
-        assertNotNull(grid.getCell(grid.getMaxCoordinate()));
+        assertNotNull(grid.getCellAt(grid.getMaxCoordinate()));
     }
 
     @Test
@@ -45,10 +45,10 @@ public class MinesWeeperServiceTest {
         MinesWeeperService service = new MinesWeeperService(3, 4, 1, new TestStrategy(testGrid(3, 4, Arrays.asList(new Coordinate(1, 1)))));
         Grid grid = service.getGame();
         assertFalse(service.uncoverCell(new Coordinate(1, 1)));
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(1, 1)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(2, 2)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(1, 2)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(3, 4)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(1, 1)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(2, 2)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(1, 2)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(3, 4)).getStatus());
     }
 
     @Test
@@ -56,10 +56,10 @@ public class MinesWeeperServiceTest {
         MinesWeeperService service = new MinesWeeperService(3, 4, 1, new TestStrategy(testGrid(3, 4, Arrays.asList(new Coordinate(1, 1)))));
         Grid grid = service.getGame();
         assertTrue(service.uncoverCell(new Coordinate(2, 2)));
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(2, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(1, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(3, 4)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(1, 1)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(2, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(1, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(3, 4)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(1, 1)).getStatus());
     }
 
 
@@ -68,10 +68,10 @@ public class MinesWeeperServiceTest {
         MinesWeeperService service = new MinesWeeperService(3, 3, 1, new TestStrategy(testGridWithCount(3, 3, Arrays.asList(new Coordinate(1, 1)))));
         Grid grid = service.getGame();
         assertTrue(service.uncoverCell(new Coordinate(2, 2)));
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(2, 2)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(1, 2)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(3, 3)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(1, 1)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(2, 2)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(1, 2)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(3, 3)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(1, 1)).getStatus());
     }
 
     @Test
@@ -79,10 +79,10 @@ public class MinesWeeperServiceTest {
         MinesWeeperService service = new MinesWeeperService(3, 3, 1, new TestStrategy(testGridWithCount(3, 3, Arrays.asList(new Coordinate(1, 1)))));
         Grid grid = service.getGame();
         assertTrue(service.uncoverCell(new Coordinate(1, 3)));
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(2, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(1, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(3, 3)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(1, 1)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(2, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(1, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(3, 3)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(1, 1)).getStatus());
     }
 
     @Test
@@ -90,10 +90,10 @@ public class MinesWeeperServiceTest {
         MinesWeeperService service = new MinesWeeperService(3, 3, 1, new TestStrategy(testGridWithCount(3, 3, Arrays.asList(new Coordinate(3, 3)))));
         Grid grid = service.getGame();
         assertTrue(service.uncoverCell(new Coordinate(1, 3)));
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(2, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(1, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(1, 1)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(3, 3)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(2, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(1, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(1, 1)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(3, 3)).getStatus());
     }
 
     @Test
@@ -101,10 +101,10 @@ public class MinesWeeperServiceTest {
         MinesWeeperService service = new MinesWeeperService(3, 3, 1, new TestStrategy(testGridWithCount(3, 3, Arrays.asList(new Coordinate(1, 1)))));
         Grid grid = service.getGame();
         assertTrue(service.uncoverCell(new Coordinate(1, 3)));
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(2, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(1, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(3, 3)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(1, 1)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(2, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(1, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(3, 3)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(1, 1)).getStatus());
         assertTrue(service.isGameWin());
     }
 
@@ -113,10 +113,10 @@ public class MinesWeeperServiceTest {
         MinesWeeperService service = new MinesWeeperService(3, 3, 1, new TestStrategy(testGridWithCount(3, 3, Arrays.asList(new Coordinate(2, 3)))));
         Grid grid = service.getGame();
         assertTrue(service.uncoverCell(new Coordinate(1, 1)));
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(2, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(1, 2)).getStatus());
-        assertEquals(UNCOVERED, grid.getCell(new Coordinate(1, 1)).getStatus());
-        assertEquals(COVERED, grid.getCell(new Coordinate(1, 3)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(2, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(1, 2)).getStatus());
+        assertEquals(UNCOVERED, grid.getCellAt(new Coordinate(1, 1)).getStatus());
+        assertEquals(COVERED, grid.getCellAt(new Coordinate(1, 3)).getStatus());
         assertFalse(service.isGameWin());
         assertTrue(service.uncoverCell(new Coordinate(3, 1)));
         assertFalse(service.isGameWin());

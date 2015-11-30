@@ -1,11 +1,11 @@
-package com.fr.orange.mines;
+package com.fr.mines;
 
 
-import com.fr.orange.mines.domain.Cell;
-import com.fr.orange.mines.domain.Coordinate;
-import com.fr.orange.mines.domain.Grid;
-import com.fr.orange.mines.service.MinesWeeperService;
-import com.fr.orange.mines.strategy.RandomMinesStrategy;
+import com.fr.mines.domain.Coordinate;
+import com.fr.mines.domain.Cell;
+import com.fr.mines.domain.Grid;
+import com.fr.mines.service.MinesWeeperService;
+import com.fr.mines.strategy.RandomMinesStrategy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,12 +21,6 @@ public class MinesGame {
         service = new MinesWeeperService(maxX, maxY, mines, new RandomMinesStrategy());
     }
 
-    public static void main(String args[]) {
-        MinesGame minesGame = new MinesGame(3, 3, 1);
-        minesGame.play();
-
-    }
-
     public void drawGame() {
         Grid game = service.getGame();
         IntStream.rangeClosed(1, game.getMaxCoordinate().getCoordY()).forEach(
@@ -34,7 +28,7 @@ public class MinesGame {
                     System.out.print(y + " ");
                     IntStream.rangeClosed(1, game.getMaxCoordinate().getCoordX()).forEach(
                             x -> {
-                                System.out.print(getCellPrint(game.getCell(new Coordinate(x, y))));
+                                System.out.print(getCellPrint(game.getCellAt(new Coordinate(x, y))));
                             }
                     );
                     System.out.println();
@@ -44,7 +38,7 @@ public class MinesGame {
 
     public String getCellPrint(Cell cell) {
         if (cell.getStatus() == Cell.Status.UNCOVERED)
-            return cell.isMinePLanted() ? "@" : "" + cell.getAdjacentMines();
+            return cell.isMinePlanted() ? "@" : "" + cell.getAdjacentMines();
         return cell.getStatus().getRepresentation();
     }
 
@@ -76,6 +70,7 @@ public class MinesGame {
                 if (isValidCoordinate(uncover)) {
                     if (!service.uncoverCell(uncover)) {
                         System.out.println("\n It was bomb! sorry :'(");
+                        drawGame();
                         return;
                     }
                     if (service.isGameWin()) {

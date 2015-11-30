@@ -1,4 +1,4 @@
-package com.fr.orange.mines.domain;
+package com.fr.mines.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -15,6 +15,11 @@ public class Coordinate {
     public Coordinate(int coordX, int coordY) {
         this.coordX = coordX;
         this.coordY = coordY;
+    }
+
+    public static Coordinate getRandomCoordinate(Coordinate max) {
+        Random random = new Random();
+        return new Coordinate(random.nextInt(max.getCoordX()) + 1, random.nextInt(max.getCoordY()) + 1);
     }
 
     public int getCoordY() {
@@ -39,12 +44,6 @@ public class Coordinate {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
-
-
-    public static Coordinate getRandomCoordinate(Coordinate max) {
-        Random random = new Random();
-        return new Coordinate(random.nextInt(max.getCoordX()) + 1, random.nextInt(max.getCoordY()) + 1);
     }
 
 }
