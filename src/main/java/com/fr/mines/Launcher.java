@@ -1,14 +1,19 @@
 package com.fr.mines;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Launcher {
 
+
     public static void main(String args[]) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        final Logger logger = LoggerFactory.getLogger(Launcher.class);
         try {
             System.out.println("How many cells in x do you want? ->");
             final int x = Integer.parseInt(br.readLine().trim());
@@ -19,7 +24,7 @@ public class Launcher {
             MinesGame minesGame = new MinesGame(x, y, mines);
             minesGame.play();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }

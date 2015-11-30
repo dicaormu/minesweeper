@@ -14,7 +14,6 @@ public class RandomMinesStrategyTest {
 
     @Test
     public void should_generate_random_coordinate() {
-        RandomMinesStrategy strategy = new RandomMinesStrategy();
         Coordinate coord = Coordinate.getRandomCoordinate(new Coordinate(3, 4));
         assertTrue(coord.getCoordX() > 0);
         assertTrue(coord.getCoordY() > 0);

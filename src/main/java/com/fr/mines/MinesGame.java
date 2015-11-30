@@ -6,6 +6,8 @@ import com.fr.mines.domain.Cell;
 import com.fr.mines.domain.Grid;
 import com.fr.mines.service.MinesWeeperService;
 import com.fr.mines.strategy.RandomMinesStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,8 @@ import java.io.InputStreamReader;
 import java.util.stream.IntStream;
 
 public class MinesGame {
+
+    private final Logger logger = LoggerFactory.getLogger(MinesGame.class);
 
     final MinesWeeperService service;
 
@@ -81,7 +85,7 @@ public class MinesGame {
                 } else
                     System.out.println("\n bad coordinate, please enter a valid one");
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
     }
