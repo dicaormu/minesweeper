@@ -1,7 +1,7 @@
 package com.fr.mines.service;
 
-import com.fr.mines.domain.Coordinate;
 import com.fr.mines.domain.Cell;
+import com.fr.mines.domain.Coordinate;
 import com.fr.mines.domain.Grid;
 import com.fr.mines.strategy.MinesStrategy;
 import com.fr.mines.strategy.RandomMinesStrategy;
@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 
 
 public class MinesWeeperServiceTest {
+
 
     @Test
     public void should_create_onexone_grid() {

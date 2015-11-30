@@ -58,7 +58,8 @@ public class MinesGame {
 
     public boolean isValidCoordinate(Coordinate coordinate) {
         if (coordinate != null && coordinate.getCoordX() <= service.getGame().getMaxCoordinate().getCoordX() &&
-                coordinate.getCoordY() <= service.getGame().getMaxCoordinate().getCoordY())
+                coordinate.getCoordY() <= service.getGame().getMaxCoordinate().getCoordY()
+                && coordinate.getCoordX()>0 && coordinate.getCoordY()>0)
             return true;
         return false;
     }
