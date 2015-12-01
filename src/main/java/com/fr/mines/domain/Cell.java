@@ -2,21 +2,21 @@ package com.fr.mines.domain;
 
 public class Cell {
 
-    private final int NO_MINES_PLANTED = 0;
-    private final int ONE_MINE_PLANTED = 1;
+    private static final int NO_MINES_PLANTED = 0;
+    private static final int ONE_MINE_PLANTED = 1;
 
-    private Status status;
+    private CellStatus cellStatus;
     private int adjacentMines;
     private boolean minePlanted;
 
     public Cell() {
-        status = Status.COVERED;
+        cellStatus = CellStatus.COVERED;
         adjacentMines = 0;
         minePlanted = false;
     }
 
-    public Status getStatus() {
-        return status;
+    public CellStatus getCellStatus() {
+        return cellStatus;
     }
 
     public int getAdjacentMines() {
@@ -35,8 +35,12 @@ public class Cell {
         adjacentMines += numberOfMines;
     }
 
-    public void withStatus(Status status) {
-        this.status = status;
+    public void withStatus(CellStatus cellStatus) {
+        this.cellStatus = cellStatus;
+    }
+
+    public boolean isCovered() {
+        return cellStatus.equals(CellStatus.COVERED);
     }
 
     public int plantMine() {
@@ -45,12 +49,12 @@ public class Cell {
         return ONE_MINE_PLANTED;
     }
 
-    public enum Status {
+    public enum CellStatus {
         UNCOVERED(" "), COVERED("#");
 
         String representation;
 
-        Status(String representation) {
+        CellStatus(String representation) {
             this.representation = representation;
         }
 

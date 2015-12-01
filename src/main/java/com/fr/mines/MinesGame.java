@@ -1,49 +1,49 @@
 package com.fr.mines;
 
 
-import com.fr.mines.domain.Coordinate;
 import com.fr.mines.domain.Cell;
+import com.fr.mines.domain.Coordinate;
 import com.fr.mines.domain.Grid;
-import com.fr.mines.service.MinesWeeperService;
+import com.fr.mines.model.GameModel;
+import com.fr.mines.model.IllegalPositionException;
 import com.fr.mines.strategy.RandomMinesStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.stream.IntStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MinesGame {
 
+    final GameModel service;
     private final Logger logger = LoggerFactory.getLogger(MinesGame.class);
 
-    final MinesWeeperService service;
-
+    private final Map<GameModel.GameStatus, String> messages = new HashMap<>();
 
     public MinesGame(int maxX, int maxY, int mines) {
-        service = new MinesWeeperService(maxX, maxY, mines, new RandomMinesStrategy());
+        service = new GameModel(maxX, maxY, mines, new RandomMinesStrategy());
+
+        messages.put(GameModel.GameStatus.WIN, "\nYou won!!! :D");
+        messages.put(GameModel.GameStatus.LOST, "\n It was bomb! sorry :'(");
     }
 
-    public void drawGame() {
-        Grid game = service.getGame();
-        IntStream.rangeClosed(1, game.getMaxCoordinate().getCoordY()).forEach(
-                y -> {
-                    System.out.print(y + " ");
-                    IntStream.rangeClosed(1, game.getMaxCoordinate().getCoordX()).forEach(
-                            x -> {
-                                System.out.print(getCellPrint(game.getCellAt(new Coordinate(x, y))));
-                            }
-                    );
-                    System.out.println();
-                }
-        );
+    private void drawGame() {
+        Grid game = service.getGrid();
+        for (int y = 1; y <= game.getMaxCoordinate().getCoordY(); y++) {
+            System.out.print(y + " ");
+            for (int x = 1; x <= game.getMaxCoordinate().getCoordX(); x++) {
+                System.out.print(getCellPrint(game.getCellAt(new Coordinate(x, y))));
+            }
+            System.out.println();
+        }
     }
 
-    public String getCellPrint(Cell cell) {
-        if (cell.getStatus() == Cell.Status.UNCOVERED)
+    private String getCellPrint(Cell cell) {
+        if (cell.getCellStatus() == Cell.CellStatus.UNCOVERED)
             return cell.isMinePlanted() ? "@" : "" + cell.getAdjacentMines();
-        return cell.getStatus().getRepresentation();
+        return cell.getCellStatus().getRepresentation();
     }
 
     public Coordinate transformToCoordinate(String line) {
@@ -56,39 +56,25 @@ public class MinesGame {
         return null;
     }
 
-    public boolean isValidCoordinate(Coordinate coordinate) {
-        if (coordinate != null && coordinate.getCoordX() <= service.getGame().getMaxCoordinate().getCoordX() &&
-                coordinate.getCoordY() <= service.getGame().getMaxCoordinate().getCoordY()
-                && coordinate.getCoordX()>0 && coordinate.getCoordY()>0)
-            return true;
-        return false;
-    }
 
-    public void play() {
-        BufferedReader in;
-        in = new BufferedReader(new InputStreamReader(System.in));
-        while (true) {
+    public void play(BufferedReader in) {
+        drawGame();
+        while (service.isGamePlaying()) {
             try {
-                drawGame();
                 System.out.println("Cell to uncover: x,y ");
                 Coordinate uncover = transformToCoordinate(in.readLine());
-                if (isValidCoordinate(uncover)) {
-                    if (!service.uncoverCell(uncover)) {
-                        System.out.println("\n It was bomb! sorry :'(");
-                        drawGame();
-                        return;
-                    }
-                    if (service.isGameWin()) {
-                        System.out.println("\n You won!!! :D");
-                        drawGame();
-                        return;
-                    }
-                } else
+                try {
+                    service.playCoordinate(uncover);
+                } catch (IllegalPositionException e) {
                     System.out.println("\n bad coordinate, please enter a valid one");
+                }
             } catch (IOException e) {
-                logger.error(e.getMessage());
+                logger.error(e.getMessage(), e);
             }
+            drawGame();
         }
+        final GameModel.GameStatus gameStatus = service.getGameStatus();
+        System.out.println(messages.getOrDefault(gameStatus, ""));
     }
 
 }

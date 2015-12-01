@@ -4,9 +4,9 @@ package com.fr.mines.domain;
 import com.fr.mines.strategy.MinesStrategy;
 
 import java.util.Map;
+import java.util.Objects;
 
-import static com.fr.mines.domain.Cell.Status.COVERED;
-import static com.fr.mines.domain.Cell.Status.UNCOVERED;
+import static com.fr.mines.domain.Cell.CellStatus.UNCOVERED;
 
 public class Grid {
 
@@ -21,7 +21,7 @@ public class Grid {
         this.cells = cells;
         this.mines = mines;
         this.uncoveredCells = 0;
-        gameLost = false;
+        this.gameLost = false;
     }
 
     public Coordinate getMaxCoordinate() {
@@ -39,14 +39,14 @@ public class Grid {
     public void uncoverCell(Coordinate coord) {
         if (cells.get(coord).isMinePlanted())
             gameLost = true;
-        if (cells.get(coord).getStatus().equals(COVERED))
+        if (cells.get(coord).isCovered())
             uncoveredCells++;
         cells.get(coord).withStatus(UNCOVERED);
 
     }
 
     public boolean isCellAvailable(Coordinate coord) {
-        return cells.get(coord).getStatus().equals(COVERED);
+        return cells.get(coord).isCovered();
     }
 
     public boolean isGameLost() {
@@ -57,6 +57,15 @@ public class Grid {
         return (uncoveredCells + mines) == cells.size();
     }
 
+    public boolean isValidCoordinate(Coordinate coordinate) {
+        Objects.requireNonNull(coordinate);
+        int x = coordinate.getCoordX();
+        int y = coordinate.getCoordY();
+        int maxX = maxCoordinate.getCoordX();
+        int maxY = maxCoordinate.getCoordY();
+        return 0 < x && x <= maxX &&
+                0 < y && y <= maxY;
+    }
 
     public static class GridBuilder {
         private Coordinate maxCoordinate;

@@ -22,9 +22,15 @@ public class Launcher {
             System.out.println("How many mines do you want? ->");
             final int mines = Integer.parseInt(br.readLine().trim());
             MinesGame minesGame = new MinesGame(x, y, mines);
-            minesGame.play();
+            minesGame.play(br);
         } catch (IOException e) {
             logger.error(e.getMessage());
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+            }
         }
 
     }
